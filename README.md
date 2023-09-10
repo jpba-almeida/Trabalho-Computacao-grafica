@@ -1,4 +1,4 @@
-# Trabalho Computação rafica
+# Trabalho Computação grafica
 
 ## OBJ Model Viewer Readme
 
