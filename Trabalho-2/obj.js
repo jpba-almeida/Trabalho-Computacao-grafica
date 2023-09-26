@@ -491,11 +491,12 @@ async function main() {
     [317, 7, 207],
     [-273, 7, -703],
     [407, 7, -333],
+    [407, 9, -33],
   ];
-
-  var balloons = balloonPositions.map((position) => {
+  const balloons = balloonPositions.map((position, index) => {
     return {
-      position: position,
+      id: index,
+      position,
     };
   });
 
@@ -654,6 +655,10 @@ async function main() {
     const balloonsAcount = document.getElementById("balloonsAcount");
     balloonsAcount.textContent = length;
   }
+  function ballsAcount(length) {
+    const ballsAcount = document.getElementById("ballsAcount");
+    ballsAcount.textContent = length;
+  }
 
   function render(time) {
     time *= 0.001; // converter para segundos
@@ -661,6 +666,8 @@ async function main() {
     webglUtils.resizeCanvasToDisplaySize(gl.canvas);
     gl.viewport(0, 0, gl.canvas.width, gl.canvas.height);
     gl.enable(gl.DEPTH_TEST);
+    gl.enable(gl.BLEND);
+    gl.blendFunc(gl.SRC_ALPHA, gl.ONE_MINUS_SRC_ALPHA);
 
     const fieldOfViewRadians = degToRad(60);
     const aspect = gl.canvas.clientWidth / gl.canvas.clientHeight;
@@ -687,6 +694,7 @@ async function main() {
       { x: 300 + 15, y: -40 * Math.cos(time) + 15, z: 150 + 15 },
       { x: 120 + 15, y: 20 + 15, z: -125 * Math.cos(time) + 15 },
       { x: 160 * Math.cos(time * 0.5) + 15, y: -80 + 15, z: -800 + 15 },
+      { x: 260 * Math.cos(time * 0.5) + 15, y: -4 + 15, z: -20 + 15 },
     ];
 
     for (let i = 0; i < balloons.length; i++) {
@@ -747,6 +755,7 @@ async function main() {
     updateBalls(time);
     drawBalls(sharedUniformsball);
     balloonsAcount(balloons.length);
+    ballsAcount(balls.length);
 
     requestAnimationFrame(render);
   }
